@@ -23,6 +23,26 @@ class NewsModel extends Model {
 		return $this->db->getQuery($sqlQuery, $returnedRequestFields, []);
 
 	}
+	
+	public function getNewsById($row_id) {
+		
+		$returnedRequestFields = [
+			'row_id',
+			'title',
+			'created_at',
+			'description',
+			'image_path'
+		];
+		
+		$sqlQuery = "SELECT `row_id`, `title`, `created_at`, `description`, `image_path`
+							   FROM  `news`
+								 WHERE `row_id` = ?";
+		
+		$bindParams[$row_id] = "i";
+		
+		return $this->db->getQuery($sqlQuery, $returnedRequestFields, $bindParams);
+		
+	}
 
 	// /* Получение рецепта в соответствии с параметрами запроса */
 	// public function getRecipeByFilter($params, $orderField = "row_id", $orderMethod = "DESC") {

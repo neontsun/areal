@@ -6,7 +6,7 @@ return [
 		'controller' => 'news',
 		'action' => 'index'
 	],
-	'news/edit' => [
+	'news/edit/{id:\d+}' => [
 		'controller' => 'news',
 		'action' => 'edit'
 	],

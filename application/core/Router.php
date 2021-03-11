@@ -18,7 +18,8 @@ class Router {
 	}
 	
 	private function fillRoutesArray($path, $setting) {
-
+		
+		$path = preg_replace('/{([a-z]+):([^\}]+)}/', '(?P<\1>\2)', $path);
 		$path = '#^' . $path . '$#';
 		$this->routes[$path] = $setting;
 
@@ -31,6 +32,14 @@ class Router {
 		foreach ($this->routes as $path => $setting) {
 			
 			if (preg_match($path, $url, $matches)) {
+				foreach ($matches as $key => $match) {
+					if (is_string($key)) {
+						if (is_numeric($match)) {
+							$match = (int) $match;
+						}
+						$setting[$key] = $match;
+					}
+				}
 				$this->params = $setting;
 				return true;
 			}

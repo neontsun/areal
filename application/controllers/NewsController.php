@@ -18,9 +18,30 @@ class NewsController extends Controller {
 	
 	public function addAction() {
 		
-		$this->view->render("Добавить новость", []);
+		if ($_POST) {
+			header("Location: /news");
+		}
+		else 
+			$this->view->render("Добавить новость", []);
 
 	}
-
+	
+	public function editAction() {
+		
+		if ($_POST)  {
+			//удаление
+			//редирект на главную
+		}
+		else {
+			$id = $this->route['id'];
+			$this->view->render("Редактировать новость", []);
+		}
+		
+	}
+	
+	private function deleteAction() {
+		
+	}
+	
 }
 

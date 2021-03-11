@@ -29,11 +29,25 @@ body {
   background: $bg;
   display: flex;
   justify-content: center;
-  padding: 50px 0;
+}
+
+.btn {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 15px;
+  font-family: $b-r;
+  font-size: 18px;
+  color: #fff;
+  transition: .3s ease;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .news {
   width: 60vw;
+  padding: 50px 0;
   display: flex;
   flex-direction: column;
   
@@ -76,17 +90,9 @@ body {
   }
   
   &__btn {
-    padding: 10px 25px;
-    border: none;
-    border-radius: $border-radius;
-    font-family: $b-r;
-    font-size: 18px;
-    background: $btn-bg;
-    color: #fff;
-    transition: .3s ease;
+    background: $btn-bg-green;
     &:hover {
-      cursor: pointer;
-      background: darken($btn-bg, 10%);
+      background: darken($btn-bg-green, 10%);
     }
   }
   
@@ -147,6 +153,10 @@ body {
   &__link {
     font-family: $b-r;
     font-size: 18px;
+    transition: .3s ease;
+    &:hover {
+      color: $news-bg;
+    }
   }
 }
 
@@ -159,6 +169,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 50px;
   
   &__title {
     font-family: $b-b;
@@ -174,5 +185,87 @@ body {
   
   &__link {
     color: $news-bg !important;
+  }
+}
+
+.add {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  width: 30vw;
+  background: $news-bg;
+  border-radius: $border-radius;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  
+  &__title {
+    font-family: $b-b;
+    font-size: 32px;
+    color: #fff;
+    margin-bottom: 50px;
+  }
+  
+  &__input {
+    margin-bottom: 15px;
+    font-family: $b-r;
+    font-size: 18px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 15px;
+  }
+  
+  &__image {
+    display: flex;
+    margin-bottom: 50px;
+  }
+  
+  &__file {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  
+  &__file-label {
+    font-family: $b-r;
+    font-size: 18px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 15px;
+    background: #fff;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  
+  &__btn-pos {
+    margin-left: 15px;
+    background: $btn-bg-green;
+    &:hover {
+      background: darken($btn-bg-green, 10%);
+    }
+  }
+  
+  &__btn-neg {
+    background: $btn-bg-red;
+    &:hover {
+      background: darken($btn-bg-red, 10%);
+    }
   }
 }

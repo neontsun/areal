@@ -13,7 +13,7 @@
 			</div>
 		</div>
 		<a href="news/add">
-			<button class="news__btn">Добавить новость</button>
+			<button class="btn news__btn">Добавить новость</button>
 		</a>
 	</div>
 	
@@ -22,7 +22,7 @@
 		<div class="news__item">
 		<img 
 			src="<?= $item['image_path']; ?>" 
-			alt="image" 
+			alt="image"
 			class="news__img">
 		<div class="news__text">
 			<div class="news__desc">
