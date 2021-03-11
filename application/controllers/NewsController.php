@@ -3,16 +3,22 @@
 namespace application\controllers;
 
 use application\core\Controller;
-use application\models\RecipeModel;
-use application\models\CommentModel;
-use application\models\CategoryModel;
-use application\models\ImageModel;
+use application\models\NewsModel;
 
 class NewsController extends Controller {
 	
 	public function indexAction() {
+		
+		$newsModel = new NewsModel();
+		$news = $newsModel->getAllNews();
+		
+		$this->view->render("Новости", $news);
 
-		$this->view->render("Новости", []);
+	}
+	
+	public function addAction() {
+		
+		$this->view->render("Добавить новость", []);
 
 	}
 

@@ -8,11 +8,11 @@ return [
 	],
 	'news/edit' => [
 		'controller' => 'news',
-		'action' => 'index'
+		'action' => 'edit'
 	],
 	'news/add' => [
 		'controller' => 'news',
-		'action' => 'index'
+		'action' => 'add'
 	],
 
 ];

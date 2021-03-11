@@ -3,8 +3,8 @@
 return [
 
 	"DB_HOST" => 'localhost',
-	"DB_NAME" => 'recipes',
+	"DB_NAME" => 'areal_db',
 	"DB_USER" => 'root',
-	"DB_PASSWORD" => 'dm0FVs4YQTGfAufz'
+	"DB_PASSWORD" => ''
 
 ];

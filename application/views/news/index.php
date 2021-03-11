@@ -12,71 +12,40 @@
 				</svg>
 			</div>
 		</div>
-		<a href="news/add"><button class="news__btn">Добавить новость</button></a>
+		<a href="news/add">
+			<button class="news__btn">Добавить новость</button>
+		</a>
 	</div>
 	
-	<div class="news__item">
-		<img src="/public/img/news-img/news1.jpg" alt="image" class="news__img">
+	<?php foreach ($data as $item): ?>
+		
+		<div class="news__item">
+		<img 
+			src="<?= $item['image_path']; ?>" 
+			alt="image" 
+			class="news__img">
 		<div class="news__text">
 			<div class="news__desc">
 				<div class="news__title">
-					Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque, consequuntur.
+					<?= $item['title']; ?>
 				</div>
 				<div class="news__description">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit nam et repudiandae? Aut vel ut reiciendis,
-					aliquam
-					accusamus repellat unde possimus fugiat perspiciatis rerum, iusto incidunt a eius nesciunt? Velit.
+					<?= $item['description']; ?>
 				</div>
 			</div>
 			<div class="news__item-footer">
 				<div class="news__date">
-					24 января 2021
+					<?= $item['created_at']; ?>
 				</div>
-				<a href="news/edit/1" class="news__link">Подробнее</a>
+				<a 
+					href="news/edit/<?= $item['row_id']; ?>" 
+					class="news__link">
+					Подробнее
+				</a>
 			</div>
 		</div>
 	</div>
-	<div class="news__item">
-		<img src="/public/img/news-img/news1.jpg" alt="image" class="news__img">
-		<div class="news__text">
-			<div class="news__desc">
-				<div class="news__title">
-					Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque, consequuntur.
-				</div>
-				<div class="news__description">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit nam et repudiandae? Aut vel ut reiciendis,
-					aliquam
-					accusamus repellat unde possimus fugiat perspiciatis rerum, iusto incidunt a eius nesciunt? Velit.
-				</div>
-			</div>
-			<div class="news__item-footer">
-				<div class="news__date">
-					24 января 2021
-				</div>
-				<a href="news/edit/1" class="news__link">Подробнее</a>
-			</div>
-		</div>
-	</div>
-	<div class="news__item">
-		<img src="/public/img/news-img/news1.jpg" alt="image" class="news__img">
-		<div class="news__text">
-			<div class="news__desc">
-				<div class="news__title">
-					Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque, consequuntur.
-				</div>
-				<div class="news__description">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit nam et repudiandae? Aut vel ut reiciendis,
-					aliquam
-					accusamus repellat unde possimus fugiat perspiciatis rerum, iusto incidunt a eius nesciunt? Velit.
-				</div>
-			</div>
-			<div class="news__item-footer">
-				<div class="news__date">
-					24 января 2021
-				</div>
-				<a href="news/edit/1" class="news__link">Подробнее</a>
-			</div>
-		</div>
-	</div>
+	
+	<?php endforeach ?>
 	
 </div>
