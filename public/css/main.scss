@@ -142,7 +142,7 @@ body {
   
   &__description {
     font-family: $b-r;
-    font-size: 22px;
+    font-size: 18px;
   }
   
   &__date {
@@ -228,9 +228,9 @@ body {
     border-radius: 15px;
   }
   
-  &__image {
+  &__choose {
     display: flex;
-    margin-bottom: 50px;
+    margin-bottom: 15px;
   }
   
   &__file {
@@ -251,6 +251,17 @@ body {
     background: #fff;
     &:hover {
       cursor: pointer;
+    }
+  }
+  
+  &__image {
+    width: 150px;
+    height: 150px;
+    border-radius: $border-radius;
+    margin-bottom: 50px;
+    
+    &_disable {
+      display: none;
     }
   }
   

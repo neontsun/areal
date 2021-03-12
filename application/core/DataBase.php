@@ -18,19 +18,22 @@ class DataBase {
 		}
 
 	}
-
+	
+	// Запрос выборки
 	public function getQuery($sqlQuery, $returnedRequestFields, $bindParams) {
 		
 		if ($queryStatement = $this->mysqli->prepare($sqlQuery)) {
 			
 			if ($bindParams) {
+				
 				$types = "";
 				$bindValue = [];
-				foreach ($bindParams as $param => $type) {
-					$types .= $type;
-					$bindValue[] = $param;
-				}
 				
+				foreach ($bindParams as $param) {
+					$types .= $param[1];
+					$bindValue[] = $param[0];
+				}
+
 				$queryStatement->bind_param($types, ...$bindValue);
 			}
 
@@ -66,5 +69,32 @@ class DataBase {
 		return $resultReturnedArray;
 
 	}
+	
+	// Запрос добавления
+	public function postQuery($sqlQuery, $bindParams) {
+		
+		if ($queryStatement = $this->mysqli->prepare($sqlQuery)) {
+			
+			if ($bindParams) {
+				
+				$types = "";
+				$bindValue = [];
+				
+				foreach ($bindParams as $param) {
+					$types .= $param[1];
+					$bindValue[] = $param[0];
+				}
 
+				$queryStatement->bind_param($types, ...$bindValue);
+			}
+			
+			$queryStatement->execute();
+			
+			$queryStatement->close();
+
+		}
+		else throw new Exception("Ошибка запроса: " . $this->mysqli->error);
+	
+	}
+	
 }

@@ -6,7 +6,7 @@ use application\core\Model;
 
 class NewsModel extends Model {
 
-	/* Получение всех рецептов */
+	/* Получение всех новостей */
 	public function getAllNews() {
 
 		$returnedRequestFields = [
@@ -24,83 +24,70 @@ class NewsModel extends Model {
 
 	}
 	
+	/* Получение всех новостей по id*/
 	public function getNewsById($row_id) {
 		
 		$returnedRequestFields = [
-			'row_id',
 			'title',
-			'created_at',
 			'description',
 			'image_path'
 		];
 		
-		$sqlQuery = "SELECT `row_id`, `title`, `created_at`, `description`, `image_path`
+		$sqlQuery = "SELECT `title`, `description`, `image_path`
 							   FROM  `news`
 								 WHERE `row_id` = ?";
 		
-		$bindParams[$row_id] = "i";
+		$bindParams[] = [$row_id, "i"];
 		
 		return $this->db->getQuery($sqlQuery, $returnedRequestFields, $bindParams);
 		
 	}
-
-	// /* Получение рецепта в соответствии с параметрами запроса */
-	// public function getRecipeByFilter($params, $orderField = "row_id", $orderMethod = "DESC") {
+	
+	/* Добавление новости */
+	public function insertNews($data) {
 		
-	// 	$returnedRequestFields = [
-	// 		'row_id',
-	// 		'title',
-	// 		'description',
-	// 		'like_count',
-	// 		'link',
-	// 		'date'
-	// 	];
-	// 	$bindParams = [];
-
-	// 	$sqlQuery = "SELECT r.`row_id`, r.`title`, r.`description`, r.`like_count`, r.`link`, r.`date`
-	// 							 FROM `recipe` r
-	// 							 JOIN `recipe-category` rc ON r.`row_id` = rc.`recipe_id`
-	// 							 JOIN `category` c ON c.`row_id` = rc.`category_id` ";
-
-	// 	if (isset($params["tag"])) {
-
-	// 		$sqlQuery .= "WHERE ";
-
-	// 		foreach ($params["tag"] as $category) {
-
-	// 			foreach ($category as $item) {
-
-	// 				$sqlQuery .= "c.`name` = ? OR ";
-	// 				$bindParams[$item] = "s";
-
-	// 			}
-
-	// 		}
-
-	// 		$sqlQuery = substr($sqlQuery, 0, strlen($sqlQuery) - 3);
-
-	// 	}
-	// 	if (isset($params["title"]) && isset($params["tag"])) {
-
-	// 		$sqlQuery .= "AND r.`title` LIKE '%" . $params["title"] . "%' ";
-
-	// 	}
-	// 	else if (isset($params["title"])) {
-
-	// 		$sqlQuery .= "WHERE r.`title` LIKE '%" . $params["title"] . "%' ";
-
-	// 	}
+		$sqlQuery = "INSERT INTO `news` (`title`, `created_at`, `description`, `image_path`) 
+								 VALUES (?, ?, ?, ?)";
 		
+		$bindParams[] = [$data['title'], "s"];
+		$bindParams[] = [$data['created_at'], "s"];
+		$bindParams[] = [$data['description'], "s"];
+		$bindParams[] = [$data['image_path'], "s"];
 		
-	// 	$sqlQuery .= "GROUP BY rc.`recipe_id`
-	// 								HAVING COUNT(rc.`recipe_id`) >= ? ";
+		$this->db->postQuery($sqlQuery, $bindParams);
 		
-	// 	$bindParams[count($bindParams)] = "i";
+	}
+	
+	/* Обновление новости */
+	public function updateNews($data, $row_id) {
 		
-	// 	$sqlQuery .= "ORDER BY r.`$orderField` $orderMethod";
-
-	// 	return $this->db->getQuery($sqlQuery, $returnedRequestFields, $bindParams);
-
-	// }
-
+		$sqlQuery = "UPDATE `news` SET ";
+		
+		foreach ($data as $key => $value) {
+			
+			$sqlQuery .= "`$key` = ?, ";
+			$bindParams[] = [$value, "s"];
+			
+		}
+		
+		$sqlQuery = substr($sqlQuery, 0, -2) . ' ';
+		$sqlQuery .= "WHERE `row_id` = ?";
+		
+		$bindParams[] = [$row_id, "i"];
+		
+		$this->db->postQuery($sqlQuery, $bindParams);
+		
+	}
+	
+	/* Обновление новости */
+	public function deleteNews($row_id) {
+		
+		$sqlQuery = "DELETE FROM `news` WHERE `row_id` = ?";
+	
+		$bindParams[] = [$row_id, "i"];
+		
+		$this->db->postQuery($sqlQuery, $bindParams);
+		
+	}
+	
 }
