@@ -62,7 +62,3 @@ if (window.location.pathname.split('/')[2] === 'edit') {
 	};
 	
 }
-
-
-
-

@@ -11,7 +11,22 @@ class NewsController extends Controller {
 	public function indexAction() {
 		
 		$newsModel = new NewsModel();
-		$news = $newsModel->getAllNews();
+		$news = [];
+		
+		if ($_GET) {
+			
+			if (isset($_GET['filter'])) {
+				
+				$news = $newsModel->getAllNews($_GET['filter']);
+				
+			}
+			
+		}
+		else {
+			
+			$news = $newsModel->getAllNews();
+			
+		}
 		
 		$this->view->render("Новости", $news);
 
@@ -115,4 +130,3 @@ class NewsController extends Controller {
 	}
 	
 }
-

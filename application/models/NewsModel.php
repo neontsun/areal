@@ -7,7 +7,7 @@ use application\core\Model;
 class NewsModel extends Model {
 
 	/* Получение всех новостей */
-	public function getAllNews() {
+	public function getAllNews($filter = 'сначала новые') {
 
 		$returnedRequestFields = [
 			'row_id',
@@ -16,10 +16,20 @@ class NewsModel extends Model {
 			'description',
 			'image_path'
 		];
-
+		
+		$filterMode = '';
+		
 		$sqlQuery = "SELECT `row_id`, `title`, `created_at`, `description`, `image_path`
-							   FROM  `news`";
-
+							   FROM  `news`
+								 ORDER BY `created_at` ";
+		
+		switch ($filter) {
+			case 'сначала новые':	$filterMode = 'ASC'; break;
+			case 'сначала старые':	$filterMode = 'DESC'; break;
+		}
+		
+		$sqlQuery .= $filterMode;
+		
 		return $this->db->getQuery($sqlQuery, $returnedRequestFields, []);
 
 	}
