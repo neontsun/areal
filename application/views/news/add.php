@@ -6,12 +6,14 @@
 		<input type="text" 
 					 name="title" 
 					 placeholder="Заголовок" 
-					 class="form__input" 
+					 class="form__input"
+					 maxlength="150"
 					 required>
 		<input type="text" 
 					 name="description" 
 					 placeholder="Описание" 
-					 class="form__input" 
+					 class="form__input"
+					 maxlength="255" 
 					 required>
 		<div class="form__choose">
 			<input type="file" 

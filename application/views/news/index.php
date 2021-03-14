@@ -19,7 +19,7 @@
 		</a>
 	</div>
 	
-	<?php foreach ($data as $item): ?>
+	<?php foreach ($data['news'] as $item): ?>
 		
 		<div class="news__item">
 			<img 
@@ -42,13 +42,56 @@
 					<a
 						href="news/edit/<?= $item['row_id']; ?>" 
 						class="news__link">
-						Подробнее
+						Редактировать
 					</a>
 				</div>
 			</div>
 		</div>
 	
 	<?php endforeach ?>
+	
+	<div class="news__paginate">
+		
+		<?php if ($data['page'] != $data['paginate']['first_page']): ?>
+				
+			<div class="news__page-btn" 
+					 data-page="<?= $data['page'] - 1; ?>">
+				Предыдущая
+			</div>
+		
+		<?php else: ?>
+		
+			<div></div>
+			
+		<? endif ?>
+	
+		<!-- <?php for (
+			$i = $data['page'] + 1; //3
+			$i <= ($data['paginate']['last_page'] <= $i + 3 //10 
+				? $data['paginate']['last_page'] // 10
+				: $i + 3); 
+			$i++): ?>
+			
+			<div class="news__page-btn">
+				<?= $i; ?>
+			</div>
+		
+		<?php endfor ?> -->
+		
+		<?php if ($data['page'] != $data['paginate']['last_page']): ?>
+				
+			<div class="news__page-btn" 
+					 data-page="<?= $data['page'] + 1; ?>">
+				Следующая
+			</div>
+			
+		<?php else: ?>
+			
+			<div></div>
+			
+		<? endif ?>
+		
+	</div>
 	
 </div>
 

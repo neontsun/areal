@@ -92,27 +92,18 @@ modalBtn.forEach(btn => {
 	btn.onclick = () => {
 		
 		const params = getParams();
-		let isFind = true;
+		let isFind = false;
 		
-		if (params.length > 0) {
+		params.forEach(param => {
 			
-			params.forEach(param => {
+			if (param[0] == 'filter') {
+				
+				param[1] = encodeURIComponent(btn.innerText);
+				isFind = true;
+				
+			}
 			
-				if (param[0] == 'filter') {
-					
-					param[1] = encodeURIComponent(btn.innerText);
-					
-				}
-				else {
-					isFind = false;
-				}
-			
-			});
-			
-		}
-		else {
-			isFind = false;
-		}
+		});
 		
 		if (!isFind) {
 			
@@ -123,6 +114,39 @@ modalBtn.forEach(btn => {
 		window.location = buildUrl(params);
 		
 	}
+	
+});
+
+// Событие клика по кнопкам пагинации
+const pageBtn = document.querySelectorAll('.news__page-btn');
+pageBtn.forEach(btn => {
+	
+	btn.onclick = () => {
+	
+	const page = btn.dataset.page;
+	const params = getParams();
+	let isFind = false;
+	
+	params.forEach(param => {
+		
+		if (param[0] == 'page') {
+			
+			param[1] = page;
+			isFind = true;
+			
+		}
+		
+	});
+	
+	if (!isFind) {
+		
+		params.push(['page', page]);
+		
+	}
+	
+	window.location = buildUrl(params);
+	
+}
 	
 });
 

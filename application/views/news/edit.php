@@ -8,12 +8,14 @@
 					 placeholder="Заголовок" 
 					 class="form__input" 
 					 value="<?= $data['title']; ?>"
+					 maxlength="150"
 					 required>
 		<input type="text" 
 					 name="description" 
 					 placeholder="Описание" 
 					 class="form__input"
 					 value="<?= $data['description']; ?>"
+					 maxlength="255"
 					 required>
 		<div class="form__choose">
 			<input type="file" 
@@ -34,7 +36,7 @@
 						 class="btn form__btn-neg"
 						 name="action">
 			<input type="submit" 
-						 value="Добавить"
+						 value="Редактировать"
 						 class="btn form__btn-pos"
 						 name="action">
 		</div>
