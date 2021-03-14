@@ -9,12 +9,12 @@
 					 class="form__input"
 					 maxlength="150"
 					 required>
-		<input type="text" 
-					 name="description" 
-					 placeholder="Описание" 
-					 class="form__input"
-					 maxlength="255" 
-					 required>
+		<textarea type="text" 
+							name="description" 
+							placeholder="Описание" 
+							class="form__input form__input_area"
+							maxlength="255" 
+							required></textarea>
 		<div class="form__choose">
 			<input type="file" 
 						 name="file" 

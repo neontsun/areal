@@ -144,7 +144,10 @@ body {
   
   &__date {
     font-family: $b-b;
-    font-size: 18px;
+    font-size: 16px;
+    padding: 5px 15px;
+    background: darken(#fff, 5%);
+    border-radius: $border-radius;
     &_light {
       color: darken(#fff, 40%);
     }
@@ -253,6 +256,14 @@ body {
     padding: 10px 15px;
     border: none;
     border-radius: 15px;
+    
+    &:focus{
+      outline: none;
+    }
+    
+    &_area {
+      height: 200px;
+    }
   }
   
   &__choose {
