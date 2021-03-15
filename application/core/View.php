@@ -4,26 +4,23 @@ namespace application\core;
 
 class View {
 
-	public $actionPath;
-	public $route;
+	private $viewPath;
 
 	public function __construct($route) {
 
-		$this->route = $route;
-		$this->actionPath = $route['controller'] . '/' . $route["action"];
+		$this->viewPath = $route['controller'] . '/' . $route["action"];
 
 	}
 
 	public function render($title, $data = []) {
 		
-		$path = 'application/views/' . $this->actionPath . '.php';
+		$path = 'application/views/' . $this->viewPath . '.php';
 
 		if (file_exists($path)) {
 			
 			ob_start();
 			require $path;
 			$content = ob_get_clean();
-
 			require_once 'application/views/layouts/main.php';
 
 		}

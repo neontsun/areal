@@ -8,7 +8,7 @@
 	<link rel="shortcut icon" href="/public/img/favicon.ico" type="image/x-icon">
 	
 	<title>
-		<?php echo $title; ?>
+		<?= $title; ?>
 	</title>
 	
 	<link rel="stylesheet" href="/public/css/normalize.css">
@@ -17,7 +17,7 @@
 </head>
 <body>
 
-	<?php echo $content; ?>
+	<?= $content; ?>
 	
 </body>
 </html>

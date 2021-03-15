@@ -9,7 +9,7 @@ class NewsModel extends Model {
 	/* Получение всех новостей */
 	public function getAllNews($limit, $filter = 'сначала новые', $page = 1) {
 		
-		$returnedRequestFields = [
+		$returnedFields = [
 			'row_id',
 			'title',
 			'created_at',
@@ -19,52 +19,63 @@ class NewsModel extends Model {
 		
 		$filterMode = '';
 		
-		$sqlQuery = "SELECT `row_id`, `title`, `created_at`, `description`, `image_path`
-							   FROM  `news`
-								 ORDER BY `created_at` ";
-		
 		switch ($filter) {
 			case 'сначала новые':	$filterMode = 'DESC'; break;
 			case 'сначала старые':	$filterMode = 'ASC'; break;
 		}
 		
-		$sqlQuery .= $filterMode;
+		$query = "SELECT 
+								`row_id`, 
+								`title`, 
+								`created_at`, 
+								`description`, 
+								`image_path`
+							FROM 
+								`news`
+							ORDER BY 
+								`created_at` $filterMode 
+							LIMIT 
+								$limit ";
 		
-		if ($page == 1) {
-			$sqlQuery .= " LIMIT $limit";
+		if ($page == 2) {
+			
+			$query .= "OFFSET $limit";
+			
 		}
-		elseif ($page == 2) {
-			$sqlQuery .= " LIMIT $limit OFFSET " . $limit;
-		}
-		else {
-			$sqlQuery .= " LIMIT $limit OFFSET " . (($limit * $page) - $limit);
+		elseif ($page > 2) {
+			
+			$offset = ($limit * $page) - $limit;
+			$query .= "OFFSET $offset";
+			
 		}
 		
-		return $this->db->getQuery($sqlQuery, $returnedRequestFields, []);
+		return $this->db->getQuery($query, $returnedFields, []);
 
 	}
 	
 	// Получение страниц
 	public function paginate($limit = 1) {
 		
-		$returnedRequestFields = [
+		$returnedFields = [
 			'count'
 		];
 		
 		$filterMode = '';
 		
-		$sqlQuery = "SELECT COUNT(`row_id`)
-							   FROM  `news`";
+		$query = "SELECT 
+								COUNT(`row_id`)
+							FROM 
+								`news`";
 		
 		
 		
-		$rowCount =  $this->db->getQuery($sqlQuery, $returnedRequestFields, []);
+		$rowCount =  $this->db->getQuery($query, $returnedFields, []);
 		$pageCount = ceil($rowCount[0]['count'] / $limit);
 		
 		return [
 			'page_count' => $pageCount,
 			'first_page' => 1,
-			'last_page' => $pageCount,
+			'last_page' => $pageCount
 		];
 		
 	}
@@ -72,66 +83,75 @@ class NewsModel extends Model {
 	/* Получение всех новостей по id*/
 	public function getNewsById($row_id) {
 		
-		$returnedRequestFields = [
+		$returnedFields = [
 			'title',
 			'description',
 			'image_path'
 		];
 		
-		$sqlQuery = "SELECT `title`, `description`, `image_path`
-							   FROM  `news`
-								 WHERE `row_id` = ?";
+		$query = "SELECT 
+								`title`, 
+								`description`, 
+								`image_path`
+							FROM 
+								`news`
+							WHERE 
+								`row_id` = ?";
 		
-		$bindParams[] = [$row_id, "i"];
+		$prepareParams[] = [$row_id, "i"];
 		
-		return $this->db->getQuery($sqlQuery, $returnedRequestFields, $bindParams);
+		return $this->db->getQuery($query, $returnedFields, $prepareParams);
 		
 	}
 	
 	/* Добавление новости */
 	public function insertNews($data) {
 		
-		$sqlQuery = "INSERT INTO `news` (`title`, `created_at`, `description`, `image_path`) 
-								 VALUES (?, ?, ?, ?)";
+		$query = "INSERT INTO `news` 
+								(`title`, `created_at`, `description`, `image_path`) 
+							VALUES 
+								(?, ?, ?, ?)";
 		
-		$bindParams[] = [$data['title'], "s"];
-		$bindParams[] = [$data['created_at'], "s"];
-		$bindParams[] = [$data['description'], "s"];
-		$bindParams[] = [$data['image_path'], "s"];
+		$prepareParams[] = [$data['title'], "s"];
+		$prepareParams[] = [$data['created_at'], "s"];
+		$prepareParams[] = [$data['description'], "s"];
+		$prepareParams[] = [$data['image_path'], "s"];
 		
-		$this->db->postQuery($sqlQuery, $bindParams);
+		$this->db->postQuery($query, $prepareParams);
 		
 	}
 	
 	/* Обновление новости */
 	public function updateNews($data, $row_id) {
 		
-		$sqlQuery = "UPDATE `news` SET ";
+		$query = "UPDATE `news` SET ";
 		
 		foreach ($data as $key => $value) {
 			
-			$sqlQuery .= "`$key` = ?, ";
-			$bindParams[] = [$value, "s"];
+			$query .= "`$key` = ?, ";
+			$prepareParams[] = [$value, "s"];
 			
 		}
 		
-		$sqlQuery = substr($sqlQuery, 0, -2) . ' ';
-		$sqlQuery .= "WHERE `row_id` = ?";
+		$query = substr($query, 0, -2) . ' ';
+		$query .= "WHERE `row_id` = ?";
+		$prepareParams[] = [$row_id, "i"];
 		
-		$bindParams[] = [$row_id, "i"];
-		
-		$this->db->postQuery($sqlQuery, $bindParams);
+		$this->db->postQuery($query, $prepareParams);
 		
 	}
 	
-	/* Обновление новости */
+	/* Удаление новости */
 	public function deleteNews($row_id) {
 		
-		$sqlQuery = "DELETE FROM `news` WHERE `row_id` = ?";
+		$query = "DELETE FROM 
+								`news` 
+							WHERE 
+								`row_id` = ?";
 	
-		$bindParams[] = [$row_id, "i"];
+		$prepareParams[] = [$row_id, "i"];
 		
-		$this->db->postQuery($sqlQuery, $bindParams);
+		$this->db->postQuery($query, $prepareParams);
 		
 	}
 	

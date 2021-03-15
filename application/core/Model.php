@@ -5,11 +5,11 @@ use application\core\DataBase;
 
 abstract class Model {
 
-	public $db;
+	protected $db;
 
 	public function __construct() {
 
-		$this->db = new DataBase;
+		$this->db = new DataBase();
 		
 	}
 

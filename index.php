@@ -1,6 +1,7 @@
 <?php
 
 use application\core\Router;
+
 require_once 'application/functions/dev.php';
 
 try {
@@ -10,9 +11,12 @@ try {
 		$classPath = str_replace('\\', '/', $class . '.php');
 
 		if (file_exists($classPath)) {
+			
 			require __DIR__ . "\\" . $classPath;
+			
 		}
-		else throw new Exception("Класс не найден");
+		else 
+			throw new Exception("Класс не найден");
 
 	});
 

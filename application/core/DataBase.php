@@ -11,89 +11,116 @@ class DataBase {
 	public function __construct() {
 
 		$db = require 'application/config/db.php';
-		$this->mysqli = new mysqli($db["DB_HOST"], $db["DB_USER"], $db["DB_PASSWORD"], $db["DB_NAME"]);
+		$this->mysqli = new mysqli(
+			$db["DB_HOST"], 
+			$db["DB_USER"], 
+			$db["DB_PASSWORD"], 
+			$db["DB_NAME"]
+		);
 
 		if ($this->mysqli->connect_error) {
-			throw new Exception("Не удалось подключиться к базе данных: " . $this->mysqli->connect_error);
+			
+			throw new Exception(
+				"Не удалось подключиться к базе данных: " . 
+				$this->mysqli->connect_error
+			);
+			
 		}
 
 	}
 	
 	// Запрос выборки
-	public function getQuery($sqlQuery, $returnedRequestFields, $bindParams) {
+	public function getQuery($query, $returnedField, $prepareParams) {
 		
-		if ($queryStatement = $this->mysqli->prepare($sqlQuery)) {
+		$statement = $this->mysqli->prepare($query);
+		
+		if ($statement) {
 			
-			if ($bindParams) {
+			if ($prepareParams) {
 				
-				$types = "";
-				$bindValue = [];
+				$prepareTypes = "";
+				$prepareValue = [];
 				
-				foreach ($bindParams as $param) {
-					$types .= $param[1];
-					$bindValue[] = $param[0];
+				foreach ($prepareParams as $parameter) {
+					
+					$prepareTypes .= $parameter[1];
+					$prepareValue[] = $parameter[0];
+					
 				}
-
-				$queryStatement->bind_param($types, ...$bindValue);
+				
+				$statement->bind_param($prepareTypes, ...$prepareValue);
+				
 			}
 
-			$queryStatement->execute();
+			$statement->execute();
 
-			$queryResult = $queryStatement->get_result();
-			$resultReturnedArray = [];
+			$result = $statement->get_result();
+			$returnedData = [];
 			
-			if ($queryResult->num_rows != 0) {
-
-				while ($resultRow = $queryResult->fetch_array(MYSQLI_NUM)) {
+			if ($result->num_rows != 0) {
+				
+				while ($row = $result->fetch_array(MYSQLI_NUM)) {
 					
-					if (count($resultRow) == count($returnedRequestFields)) {
+					if (count($row) == count($returnedField)) {
 						
-						$tempArray = [];
-						for ($i = 0; $i < count($resultRow); $i++) { 
-							$tempArray[$returnedRequestFields[$i]] = $resultRow[$i];
+						$temp = [];
+						
+						for ($i = 0; $i < count($row); $i++) { 
+							
+							$temp[$returnedField[$i]] = $row[$i];
+							
 						}
-						$resultReturnedArray[] = $tempArray;
+						
+						$returnedData[] = $temp;
 						
 					}
-					else throw new Exception("Количество возвращаемых полей не соответствует количеству указанных");
-
+					else 
+						throw new Exception('Количество возвращаемых полей не 
+							соответствует количеству указанных');
+					
 				}
-
-				$queryResult->close();
+				
+				$result->close();
 				
 			}
 			
 		}
-		else throw new Exception("Ошибка запроса: " . $this->mysqli->error);
+		else 
+			throw new Exception("Ошибка запроса: " . $this->mysqli->error);
 
-		return $resultReturnedArray;
+		return $returnedData;
 
 	}
 	
 	// Запрос добавления
-	public function postQuery($sqlQuery, $bindParams) {
+	public function postQuery($query, $prepareParams) {
 		
-		if ($queryStatement = $this->mysqli->prepare($sqlQuery)) {
+		$statement = $this->mysqli->prepare($query);
+		
+		if ($statement) {
 			
-			if ($bindParams) {
+			if ($prepareParams) {
 				
-				$types = "";
-				$bindValue = [];
+				$prepareTypes = "";
+				$prepareValue = [];
 				
-				foreach ($bindParams as $param) {
-					$types .= $param[1];
-					$bindValue[] = $param[0];
+				foreach ($prepareParams as $parameter) {
+					
+					$prepareTypes .= $parameter[1];
+					$prepareValue[] = $parameter[0];
+					
 				}
 
-				$queryStatement->bind_param($types, ...$bindValue);
+				$statement->bind_param($prepareTypes, ...$prepareValue);
+				
 			}
 			
-			$queryStatement->execute();
+			$statement->execute();
+			$statement->close();
 			
-			$queryStatement->close();
-
 		}
-		else throw new Exception("Ошибка запроса: " . $this->mysqli->error);
+		else 
+			throw new Exception("Ошибка запроса: " . $this->mysqli->error);
 	
 	}
 	

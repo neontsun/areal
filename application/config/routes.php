@@ -1,7 +1,6 @@
 <?php
 
 return [
-
 	'news' => [
 		'controller' => 'news',
 		'action' => 'index'
@@ -13,7 +12,6 @@ return [
 	'news/add' => [
 		'controller' => 'news',
 		'action' => 'add'
-	],
-
+	]
 ];
 

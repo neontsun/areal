@@ -11,8 +11,9 @@ class NewsController extends Controller {
 	public function indexAction() {
 		
 		$newsModel = new NewsModel();
-		$news = [];
-		$limit = 5;
+		
+		$newsData = [];
+		$limitPerPage = 5;
 		$page = 1;
 		
 		if ($_GET) {
@@ -31,29 +32,29 @@ class NewsController extends Controller {
 				
 			}
 			
-			$news = $newsModel->getAllNews($limit, $filter, $page);
-			
+			$newsData = $newsModel->getAllNews($limitPerPage, $filter, $page);
+
 		}
 		else {
 			
-			$news = $newsModel->getAllNews($limit);
+			$newsData = $newsModel->getAllNews($limitPerPage);
 			
 		}
 		
-		$paginate = $newsModel->paginate($limit);
+		$paginate = $newsModel->paginate($limitPerPage);
 		
-		foreach ($news as &$item) {
+		foreach ($newsData as &$item) {
 			
 			$item['created_at'] = $this->getHumanDate($item['created_at']);
 			
 		}
 		
 		$this->view->render("Новости", [
-			'news' => $news, 
+			'news' => $newsData, 
 			'paginate' => $paginate, 
 			'page' => $page
 		]);
-
+		
 	}
 	
 	public function addAction() {
@@ -62,16 +63,16 @@ class NewsController extends Controller {
 			
 			if (isset($_FILES['file'])) {
 				
-				$root = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..');
+				$root = realpath(__DIR__ . '/../..');
 				$path = '/public/img/news-img/';
 				$fileName = $_FILES['file']['name'];
 				$fileTmp = $_FILES['file']['tmp_name'];
-				$file = $path . $fileName;
+				$filePath = $path . $fileName;
 				
-				move_uploaded_file($fileTmp, $root . $file);
+				move_uploaded_file($fileTmp, $root . $filePath);
 				
 				$_POST['created_at'] = date('Y-m-d H:i:s');
-				$_POST['image_path'] = $file;
+				$_POST['image_path'] = $filePath;
 				
 				$newsModel = new NewsModel();
 				$newsModel->insertNews($_POST);
@@ -91,27 +92,25 @@ class NewsController extends Controller {
 		$newsModel = new NewsModel();
 		$row_id = $this->route['id'];
 		
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		if ($_POST) {
 			
 			if ($_POST['action'] == 'Редактировать') {
 				
 				if ($_FILES['file']['name']) {
 				
-					$root = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..');
+					$root = realpath(__DIR__ . '/../..');
 					$path = '/public/img/news-img/';
 					$fileName = $_FILES['file']['name'];
 					$fileTmp = $_FILES['file']['tmp_name'];
-					$file = $path . $fileName;
+					$filePath = $path . $fileName;
 					
-					move_uploaded_file($fileTmp, $root . $file);
+					move_uploaded_file($fileTmp, $root . $filePath);
 					
 					$_POST['updated_at'] = date('Y-m-d H:i:s');
-					$_POST['image_path'] = $file;
+					$_POST['image_path'] = $filePath;
 					
 					unset($_POST['action']);
-					
 					$newsModel->updateNews($_POST, $row_id);
-					
 					header("Location: /news");
 					
 				}
@@ -120,20 +119,15 @@ class NewsController extends Controller {
 					$_POST['updated_at'] = date('Y-m-d H:i:s');
 					
 					unset($_POST['action']);
-					
 					$newsModel->updateNews($_POST, $row_id);
-					
 					header("Location: /news");
 					
 				}
 				
 			}
-			else if ($_POST["action"] == 'Удалить') {
-				
-				unset($_POST['action']);
+			elseif ($_POST["action"] == 'Удалить') {
 				
 				$newsModel->deleteNews($row_id);
-				
 				header("Location: /news");
 				
 			}
@@ -141,13 +135,15 @@ class NewsController extends Controller {
 		}
 		else {
 			
-			$newsById = $newsModel->getNewsById($row_id)[0];
+			$newsData = $newsModel->getNewsById($row_id)[0];
 			
-			$newsById['real_path'] = realpath(__DIR__ . '/' . '..' . '/' . '..' . $newsById['image_path']);
-			$tmp = explode('/', $newsById['image_path']);
-			$newsById['image_name'] = end($tmp);
+			$newsData['real_path'] = realpath(
+				__DIR__ . '/../..' . $newsData['image_path']
+			);
+			$tmp = explode('/', $newsData['image_path']);
+			$newsData['image_name'] = end($tmp);
 			
-			$this->view->render("Редактировать новость", $newsById);
+			$this->view->render("Редактировать новость", $newsData);
 			
 		}
 
