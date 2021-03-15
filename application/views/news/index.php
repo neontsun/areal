@@ -73,19 +73,6 @@
 			
 		<? endif ?>
 	
-		<!-- <?php for (
-			$i = $data['page'] + 1; //3
-			$i <= ($data['paginate']['last_page'] <= $i + 3 //10 
-				? $data['paginate']['last_page'] // 10
-				: $i + 3); 
-			$i++): ?>
-			
-			<div class="news__page-btn">
-				<?= $i; ?>
-			</div>
-		
-		<?php endfor ?> -->
-		
 		<?php if ($data['page'] != $data['paginate']['last_page']): ?>
 				
 			<div class="news__page-btn" 
