@@ -192,8 +192,7 @@ body {
 }
 
 .error {
-  width: 60vw;
-  height: 85vh;
+  height: 60vh;
   background: #fff;
   border-radius: $border-radius;
   display: flex;
@@ -212,6 +211,8 @@ body {
     font-family: $b-r;
     font-size: 18px;
     margin-bottom: 15px;
+    width: 60%;
+    text-align: center;
   }
   
   &__link {

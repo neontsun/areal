@@ -72,6 +72,9 @@
   .form {
     width: 90vw;
   }
+  .error {
+    width: 90vw;
+  }
 }
 
 @media screen and (min-width: 500px) and (max-width: 767px) {
@@ -131,6 +134,9 @@
   .form {
     width: 80vw;
   }
+  .error {
+    width: 80vw;
+  }
 }
 
 @media screen and (min-width: 768px) and (max-width: 991px) {
@@ -177,6 +183,9 @@
     display: none;
   }
   .form {
+    width: 60vw;
+  }
+  .error {
     width: 60vw;
   }
 }
@@ -228,6 +237,9 @@
   .form {
     width: 50vw;
   }
+  .error {
+    width: 50vw;
+  }
 }
 
 @media screen and (min-width: 1200px) {
@@ -276,6 +288,9 @@
   }
   .form {
     width: 30vw;
+  }
+  .error {
+    width: 40vw;
   }
 }
 
@@ -514,8 +529,7 @@ body {
 }
 
 .error {
-  width: 60vw;
-  height: 85vh;
+  height: 60vh;
   background: #fff;
   border-radius: 20px;
   display: -webkit-box;
@@ -544,6 +558,8 @@ body {
   font-family: "Golos-Text_Regular";
   font-size: 18px;
   margin-bottom: 15px;
+  width: 60%;
+  text-align: center;
 }
 
 .error__link {
